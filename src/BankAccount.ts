@@ -17,9 +17,13 @@ export class BankAccount implements Account {
     const statement = new Statement(new Date(), amount, this.balance);
     this.statementRepository.addStatement(statement);
   }
+
   withdraw(amount: number): void {
-    return null;
+    this.balance = this.balance - amount;
+    const statement = new Statement(new Date(), -amount, this.balance);
+    this.statementRepository.addStatement(statement);
   }
+
   printStatements(): void {
     console.log('Date\t\tAmount\t\tBalance');
     for (const statement of this.statementRepository.getAllStatements()) {

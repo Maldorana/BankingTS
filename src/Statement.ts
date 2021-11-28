@@ -11,7 +11,8 @@ export class Statement {
     return (
       `${day < 10 ? '0' + day : day}.${
         month < 10 ? '0' + month : month
-      }.${this.date.getFullYear()}` + `\t+${this.amount}\t\t${this.balance}`
+      }.${this.date.getFullYear()}` +
+      `\t${this.amount > 0 ? '+' : ''}${this.amount}\t\t${this.balance}`
     );
   }
 }

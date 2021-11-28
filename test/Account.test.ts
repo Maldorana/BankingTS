@@ -37,4 +37,24 @@ describe('Account test', () => {
     expect(logSpy).nthCalledWith(1, 'Date\t\tAmount\t\tBalance');
     expect(logSpy).nthCalledWith(2, '15.03.2025\t+400\t\t400');
   });
+
+  it('should print the header and two operations', () => {
+    const logSpy = jest.spyOn(console, 'log');
+    const statement1 = new Statement(new Date('3/5/2025'), -400, -400);
+    const statement2 = new Statement(new Date('3/15/2025'), 1400, 600);
+    const mockRepository: StatementRepository = {
+      addStatement: jest.fn(),
+      getAllStatements: jest.fn().mockReturnValue([statement1, statement2]),
+    };
+    const account = new BankAccount(mockRepository);
+
+    account.withdraw(400);
+    account.deposit(1400);
+    account.printStatements();
+
+    expect(logSpy).toBeCalledTimes(3);
+    expect(logSpy).nthCalledWith(1, 'Date\t\tAmount\t\tBalance');
+    expect(logSpy).nthCalledWith(2, '05.03.2025\t-400\t\t-400');
+    expect(logSpy).nthCalledWith(3, '15.03.2025\t+1400\t\t600');
+  });
 });
